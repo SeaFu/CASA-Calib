@@ -14,12 +14,12 @@ Perturbation robustness experiments (Fig. 5)
 
 All scripts are self-contained and assume you have already prepared the curated Waymo dataset described in the paper.
 
+```text
 CASA_Calib/
 │
 ├── CASA_Loss.m                    # Core CASA-Loss (Section III of paper)
 │
-├── cost_landscape.m              # J(Δty, Δtz) landscape → Fig. 7
-│   (formerly cost_landscape or landscape_analysis)
+├── cost_landscape.m               # J(Δty, Δtz) landscape → Fig. 7
 │
 ├── Tau_Sensitivity_Analysis.m     # Tau sweep & stability band → Fig. 4
 │
@@ -30,7 +30,7 @@ CASA_Calib/
 ├── loss_proj.m                    # Local SDS similarity (1D/2D)
 ├── loss_shape_optimized.m         # IoU, centroid consistency (global terms)
 │
-└── README.md (this file)
+└── README.md                      # This file
 
 
 waymo_segment_data/
