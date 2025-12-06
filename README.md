@@ -31,8 +31,9 @@ CASA_Calib/
 ├── loss_shape_optimized.m         # IoU, centroid consistency (global terms)
 │
 └── README.md                      # This file
+```
 
-
+```text
 waymo_segment_data/
     pair_summary_xx_deduplicated.csv
     ├── <seq_id>/
@@ -42,6 +43,8 @@ waymo_segment_data/
                 ├── <lidar_file>.txt   # LiDAR points of car instance
                 ├── copyy_chao.mat     # (ignored in CASA-Calib)
                 ├── calib.txt          # Intrinsics + extrinsics
+```
+
 
 🎯 How to Reproduce Figures in the Paper
 1. Figure 4 — Tau Sensitivit
@@ -94,6 +97,7 @@ CASA_Loss.m implements the exact formulation in Section III:
 This function is used by all optimization scripts.
 
 🔗 Function Dependency Graph
+```text
 CASA_Loss
  ├── img_contour_seq_fast
  ├── LiDAR_contour_extraction_opt
@@ -105,7 +109,7 @@ perturbation_analysis
 
 cost_landscape
  └── CASA_Loss
-
+```
 📩 Questions / Issues
 
 If you encounter missing files, dataset format questions, or need help adapting the code, feel free to open a GitHub issue or contact the author.
