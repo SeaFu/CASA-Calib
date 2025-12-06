@@ -1,6 +1,11 @@
 # CASA-Calib (MATLAB Release)
 CASA-Calib: A Context-Aware Semantic Alignment Method for LiDAR-Camera Extrinsic Calibration for Vehicle Perception Systems
 
+> **Note:** This repository is currently being actively updated.  
+> Components related to dataset construction, visualization tooling, and CASA-Calib modules  
+> are under continuous refinement. Additional documentation and examples will be released soon.
+
+
 Author: Yuan-Ting Fu
 
 This repository provides the official MATLAB implementation of the core components used in the CASA-Calib paper, including:
