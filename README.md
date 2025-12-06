@@ -34,19 +34,6 @@ CASA_Calib/
 └── README.md                      # This file
 ```
 
-```text
-waymo_segment_data/
-    pair_summary_xx_deduplicated.csv
-    ├── <seq_id>/
-        ├── <tfrecord_name>/
-            ├── <frame_id>/
-                ├── <pixel_file>.txt   # 2D car mask pixels
-                ├── <lidar_file>.txt   # LiDAR points of car instance
-                ├── copyy_chao.mat     # (ignored in CASA-Calib)
-                ├── calib.txt          # Intrinsics + extrinsics
-```
-
-
 🎯 How to Reproduce Figures in the Paper
 1. Figure 4 — Tau Sensitivit
 Run:
@@ -111,6 +98,79 @@ perturbation_analysis
 cost_landscape
  └── CASA_Loss
 ```
+
+Semantic–Geometric Dataset Builder
+
+Contribution III — Semantic–Geometric Test Set Construction
+
+This repository includes a custom data extraction tool that constructs a curated semantic–geometric test set derived from the Waymo Open Dataset, as described in Contribution 3 of our paper:
+
+
+“We construct and release a curated semantic–geometric test set based on the Waymo Open Dataset, providing reliable instance-level correspondences for accurate evaluation and benchmarking of semantic-assisted LiDAR–camera calibration methods.”
+
+
+Unlike standard datasets—where
+
+
+LiDAR instance IDs and image instance IDs do not correspond,
+
+
+camera–LiDAR associations must be manually aligned, and
+
+
+segmentation labels may contain annotation errors,
+
+
+our tool automatically aligns per-instance LiDAR and camera semantic labels, and exports a cleaned, structured dataset suitable for semantic-assisted calibration research (e.g., CASA-Calib).
+
+🛠 Semantic–Geometric Dataset Builder
+File: waymo_semantic_geometric_builder.py
+
+This script processes raw .tfrecord files from the Waymo Open Dataset and generates a pairwise-consistent LiDAR–camera dataset with:
+
+✔ Reliable instance-level correspondences
+
+✔ Pixel-level image segmentation masks
+
+✔ LiDAR point-level semantic & instance labels
+
+✔ Synchronized calibration matrices
+
+✔ A directory structure compatible with CASA-Calib
+
+
+📦 Output Directory Structure
+
+After running the tool, each valid frame will be exported as:
+
+```text
+waymo_segment_data/
+ └── <sequence_id>/
+      └── <tfrecord_name>/
+           └── <frame_id>/
+                ├── calib.txt                 # KITTI-style camera–LiDAR extrinsic
+                ├── img_raw.png               # RGB image
+                ├── panoptic_label_front.png  # image segmentation (uint16)
+                ├── instance_label_front.png  # instance map (uint16)
+                ├── instance_waymo.png        # original Waymo instance ID map
+                ├── points_all.txt            # LiDAR XYZ points (all beams)
+                ├── point_labels_all.txt      # corresponding semantic/instance IDs
+                ├── lidar.bin                 # binary point cloud file (float32)
+                └── ... (additional metadata)
+```
+
+This format is fully compatible with CASA-Calib, and can also be used for:
+
+1.Semantic calibration
+
+2.Instance-matching research
+
+3.LiDAR-camera fusion
+
+4.3D instance segmentation training
+
+
+
 📩 Questions / Issues
 
 If you encounter missing files, dataset format questions, or need help adapting the code, feel free to open a GitHub issue or contact the author.
