@@ -207,13 +207,62 @@ for downstream calibration evaluation.
 - GUI buttons: **Save Match**, **Clear Selection**, **Skip Frame**, **Reset View**  
 - Produces a CSV summary listing all matched instances per sequence  
 
+## Matching GUI Overview
+
+CASA-Calib includes an interactive Qt-based GUI for establishing instance-level
+correspondences between camera segmentation masks and LiDAR point clusters.
+This tool is essential for validating semantic–geometric consistency and for
+constructing high-quality benchmark data.
+
+The interface consists of four synchronized visualizations:
+
+1. **Image Instance Label (Top-Left)**  
+   Displays the instance-level segmentation mask from the camera.  
+   Each instance is assigned a unique color and labeled with its instance ID.
+
+2. **LiDAR BEV Projection — Top Instances (Top-Right)**  
+   Shows the most prominent LiDAR object clusters in Bird’s-Eye-View (BEV).  
+   Each cluster (instance ID) is color-coded consistently across subplots.
+
+3. **All LiDAR Points Projected to the Image (Bottom-Left)**  
+   Projects every LiDAR point into the camera frame, colored by depth (m).  
+   This allows users to inspect geometric alignment and calibration consistency.
+
+4. **Semantic Point Cloud Projection (Bottom-Right)**  
+   Projects only semantically valid LiDAR points and colors them by instance ID.
+   This view highlights object-level alignment between modalities.
+
+### GUI Interaction
+
+The interface supports the following actions:
+
+| Button | Function |
+|--------|----------|
+| **Clear Selection** | Removes all selected pixel and LiDAR selections |
+| **Save Match** | Stores the current pixel ↔ LiDAR instance correspondence |
+| **Skip Frame** | Discards the current frame and removes temporary output |
+| **Reset View** | Resets zoom and panning for all subplots |
+
+### Example Screenshots
+
+Below are example GUI screenshots captured during matching:
+
+#### Image Instance Label + LiDAR BEV Projection
+   
 <img width="1919" height="1027" alt="GUI_1" src="https://github.com/user-attachments/assets/a5e32c39-c8eb-489e-981e-1c725f575ad2" />
 
+
+#### Pixel Selection + LiDAR Cluster Highlighting
+
 <img width="1919" height="1029" alt="GUI_2" src="https://github.com/user-attachments/assets/d5f07935-f514-4716-a946-7eb1ccefe39b" />
+
+
+#### Final Instance Projection and Correspondence Visualization
 
 <img width="1919" height="1031" alt="GUI_3" src="https://github.com/user-attachments/assets/0d6fcf11-3255-4589-9b10-630b2ac85f28" />
 
 
+   
 
 📩 Questions / Issues
 
