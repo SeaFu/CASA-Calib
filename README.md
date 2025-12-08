@@ -259,7 +259,8 @@ Below are example GUI screenshots captured during matching:
 
 #### Final Instance Projection and Correspondence Visualization
 
-<img width="1919" height="1031" alt="GUI_3" src="https://github.com/user-attachments/assets/0d6fcf11-3255-4589-9b10-630b2ac85f28" />
+<img width="1919" height="1029" alt="GUI_3" src="https://github.com/user-attachments/assets/75ec98dc-a7a5-4c56-8a9d-e6a09e17878e" />
+
 
 
    
