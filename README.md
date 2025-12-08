@@ -174,6 +174,45 @@ This format is fully compatible with CASA-Calib, and can also be used for:
 
 4.3D instance segmentation training
 
+📦 Description for Semantic–Geometric Dataset Builder
+*A core component for constructing the CASA-Calib semantic–geometric evaluation dataset.*
+
+This repository includes a dedicated extraction tool to convert raw Waymo Open Dataset
+`.tfrecord` files into a curated semantic–geometric dataset.  
+This dataset is required for evaluating instance-level LiDAR–camera calibration methods
+and corresponds to **Contribution 3** of the CASA-Calib paper.
+
+### ✨ Purpose  
+Waymo provides high-quality but **independently generated** camera and LiDAR segmentation
+annotations. CASA-Calib requires a dataset in which:
+
+- semantic labels from *both* modalities are consistently extracted  
+- LiDAR segmentation is converted into per-point labels  
+- camera instance masks can be paired with LiDAR object clusters  
+- each frame contains complete segmentation annotations  
+- manual (or automatic) LiDAR–image instance correspondence can be established  
+
+This extractor performs all the above and exports a clean, structured dataset suitable
+for downstream calibration evaluation.
+
+---
+
+## Features of the Extractor  
+- Extracts RGB images, panoptic labels, semantic labels, and instance masks  
+- Converts Waymo’s LiDAR range-image segmentation into **3D point-level labels**  
+- Saves LiDAR point clouds (`lidar.bin`), semantic labels, and projection information  
+- Exports KITTI-style calibration matrices (`calib.txt`)  
+- Filters invalid frames lacking segmentation labels  
+- Provides a **Qt-based GUI** for interactive LiDAR–image instance matching  
+- GUI buttons: **Save Match**, **Clear Selection**, **Skip Frame**, **Reset View**  
+- Produces a CSV summary listing all matched instances per sequence  
+
+<img width="1919" height="1027" alt="GUI_1" src="https://github.com/user-attachments/assets/a5e32c39-c8eb-489e-981e-1c725f575ad2" />
+
+<img width="1919" height="1029" alt="GUI_2" src="https://github.com/user-attachments/assets/d5f07935-f514-4716-a946-7eb1ccefe39b" />
+
+<img width="1919" height="1031" alt="GUI_3" src="https://github.com/user-attachments/assets/0d6fcf11-3255-4589-9b10-630b2ac85f28" />
+
 
 
 📩 Questions / Issues
