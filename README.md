@@ -5,8 +5,30 @@ CASA-Calib: A Context-Aware Semantic Alignment Method for LiDAR-Camera Extrinsic
 > Components related to dataset construction, visualization tooling, and CASA-Calib modules  
 > are under continuous refinement. Additional documentation and examples will be released soon.
 
+📌 Visualization Example
 
 ![Optimization GIF](CASA_Calib_opt_process.gif)
+
+Left — IoU-based Alignment View
+
+- Red region — Refined LiDAR semantic contour mask (after our proposed contour refinement).
+
+- Blue region — Pixel-based semantic mask from the image.
+
+- Blue centroid — Centroid of the pixel semantic mask.
+
+- Green centroid — Centroid of the refined LiDAR semantic contour.
+
+- Yellow centroid — Centroid of the raw (unrefined) LiDAR semantic contour.
+
+Right — Final Contour Overlay
+
+- Red contour — Image-derived semantic contour.
+
+- Yellow contour — Refined LiDAR semantic contour.
+
+- Green points — Refined LiDAR contour vertices.
+
 
 Author: Yuan-Ting Fu
 
