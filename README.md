@@ -9,17 +9,21 @@ CASA-Calib: A Context-Aware Semantic Alignment Method for LiDAR-Camera Extrinsic
 
 ![Optimization GIF](CASA_Calib_opt_process.gif)
 
-Left — IoU-based Alignment View
+Left — IoU-based Alignment View: three different centroid definitions are visualized to illustrate the effect of LiDAR contour refinement
 
 - Red region — Refined LiDAR semantic contour mask (after our proposed contour refinement).
 
 - Blue region — Pixel-based semantic mask from the image.
 
-- Blue centroid — Centroid of the pixel semantic mask.
+- Blue centroid — The centroid of the pixel-based semantic mask obtained from the image.
 
-- Green centroid — Centroid of the refined LiDAR semantic contour.
+- Green centroid — The centroid computed from the refined LiDAR semantic contour, which is our proposed centroid estimation method based on contour refinement.
 
-- Yellow centroid — Centroid of the raw (unrefined) LiDAR semantic contour.
+- Yellow centroid — The centroid computed from the raw (unrefined) LiDAR semantic contour, which follows the conventional centroid estimation strategy commonly used in prior works.
+
+From the visualization, it can be observed that the green centroid is significantly closer to the image semantic centroid (blue) compared to the yellow centroid. This indicates that, after LiDAR contour refinement, the semantic centroid estimated from LiDAR becomes more consistent with the image-based semantic centroid.
+
+This improvement effectively mitigates the inherent limitations of LiDAR sensing, including point cloud sparsity, material-dependent penetration effects (e.g., vehicle windows), and lower spatial resolution compared to cameras, all of which tend to bias the centroid computed from raw LiDAR contours and enlarge the discrepancy with image-based centroids.
 
 Right — Final Contour Overlay
 
