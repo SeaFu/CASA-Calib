@@ -290,7 +290,181 @@ Below are example GUI screenshots captured during matching:
 <img width="1919" height="1029" alt="GUI_3" src="https://github.com/user-attachments/assets/75ec98dc-a7a5-4c56-8a9d-e6a09e17878e" />
 
 
+## 📘 Algorithms Presented in the Paper
 
+The CASA-Calib paper provides three algorithms that summarize the main
+computational stages of the proposed contour-based semantic–geometric
+alignment framework.
+
+These algorithms cover:
+
+1. contour refinement and ordered contour construction;
+2. global shape alignment using centroid consistency and region overlap; and
+3. local semantic distribution similarity using adaptive 1D/2D neighborhood modeling.
+
+The corresponding MATLAB implementations are included in this repository.
+
+### Paper-to-Code Mapping
+
+| Paper Algorithm | Main Purpose | MATLAB Implementation |
+|---|---|---|
+| **Algorithm 1** | LiDAR contour refinement and contour sequencing | `LiDAR_contour_extraction_opt.m`, `img_contour_seq_fast.m` |
+| **Algorithm 2** | Global shape alignment using centroid distance and IoU | `loss_shape_optimized.m` |
+| **Algorithm 3** | Local semantic distribution similarity (SDS-1D/SDS-2D) | `loss_proj.m` |
+
+---
+
+### Algorithm 1 — LiDAR Contour Refinement and Contour Sequencing
+
+Algorithm 1 converts the image semantic boundary and projected LiDAR points
+into ordered contour sequences that can be consistently compared across the
+two sensing modalities.
+
+The projected LiDAR points are first rasterized into a binary image. Because
+raw LiDAR projections are usually sparse and discontinuous, morphological
+closing and hole filling are applied to construct a more continuous support
+region. Sobel and Canny edge detectors are then combined to identify candidate
+boundary pixels. Only projected LiDAR samples located on the fused edge map
+are retained, and duplicate samples are removed.
+
+After contour extraction, both the image contour and the refined LiDAR contour
+are converted into ordered sequences. Each contour point is represented using
+its image coordinate and its polar coordinate relative to the contour centroid.
+An initial angular ordering is followed by nearest-neighbor chaining to reduce
+local discontinuities caused by sparse or unevenly distributed boundary
+samples.
+
+**Inputs**
+
+- projected LiDAR binary map;
+- projected LiDAR image-plane points;
+- image semantic contour pixels.
+
+**Outputs**
+
+- ordered image contour sequence, `C_img`;
+- ordered LiDAR contour sequence, `C_lid`.
+
+**Implementation**
+
+- `LiDAR_contour_extraction_opt.m` performs LiDAR contour refinement;
+- `img_contour_seq_fast.m` constructs the ordered contour sequences.
+
+The resulting contours provide the common structural representation used by
+both the global and local alignment modules.
+
+<!-- Optional pseudocode figure -->
+<!-- ![Algorithm 1](docs/algorithm_1.png) -->
+
+---
+
+### Algorithm 2 — Global Shape Alignment
+
+Algorithm 2 evaluates coarse, object-level agreement between the image and
+LiDAR contours.
+
+The two ordered contours are converted into closed polygonal regions. Their
+areas and polygon centroids are computed, and the global alignment is described
+using two complementary measurements:
+
+- **Centroid consistency (`d_CC`)** measures the Euclidean distance between
+  the image-contour centroid and the LiDAR-contour centroid.
+- **Intersection-over-Union (`IoU`)** measures the overlap between the two
+  enclosed polygonal regions.
+
+Centroid consistency provides a stable positional constraint, while IoU
+captures the overall agreement in object location, scale, and shape. Together,
+they form the global shape-alignment component of CASA-Loss.
+
+**Inputs**
+
+- ordered image contour vertices, `V_img`;
+- ordered LiDAR contour vertices, `V_lid`.
+
+**Outputs**
+
+- centroid distance, `d_CC`;
+- contour-region overlap, `IoU`.
+
+**Implementation**
+
+- `loss_shape_optimized.m`
+
+<!-- Optional pseudocode figure -->
+<!-- ![Algorithm 2](docs/algorithm_2.png) -->
+
+---
+
+### Algorithm 3 — Semantic Distribution Similarity (SDS)
+
+Algorithm 3 evaluates fine-grained local consistency between the projected
+LiDAR contour and the image semantic contour.
+
+For each LiDAR contour point, the nearest image-contour point is identified.
+A local neighborhood around this matched image point is then selected from the
+ordered image contour. The covariance matrix of the neighborhood is computed,
+and its eigenvalue ratio is used to determine the local geometric structure.
+
+Two types of local distributions are considered:
+
+- **SDS-1D:**  
+  Highly anisotropic neighborhoods are treated as line-like structures.
+  A local line is fitted to the image-contour neighborhood, and the
+  perpendicular distance from the LiDAR point to this line is measured.
+
+- **SDS-2D:**  
+  Near-isotropic neighborhoods are treated as two-dimensional elliptical
+  regions. The Mahalanobis distance between the LiDAR point and the local
+  image-contour distribution is measured.
+
+This adaptive classification allows SDS to model both elongated vehicle
+boundaries, such as rooflines and side edges, and compact structures, such as
+wheels, mirrors, and bumper regions.
+
+**Inputs**
+
+- ordered LiDAR contour points;
+- ordered image contour points.
+
+**Outputs**
+
+- pointwise line-like distribution distances, `SDS_1D`;
+- pointwise elliptical distribution distances, `SDS_2D`.
+
+The raw distances are subsequently converted into normalized similarity scores
+and incorporated into CASA-Loss through the IoU-guided coupling mechanism.
+
+**Implementation**
+
+- `loss_proj.m`
+
+<!-- Optional pseudocode figure -->
+<!-- ![Algorithm 3](docs/algorithm_3.png) -->
+
+---
+
+### Relationship Between the Three Algorithms
+
+The three algorithms form a sequential contour-level alignment pipeline:
+
+```text
+Projected LiDAR Points + Image Semantic Mask
+                    │
+                    ▼
+Algorithm 1: Contour Refinement and Sequencing
+                    │
+          ┌─────────┴─────────┐
+          ▼                   ▼
+Algorithm 2              Algorithm 3
+Global Shape             Local Semantic
+Alignment                Distribution Similarity
+(IoU and d_CC)           (SDS-1D and SDS-2D)
+          └─────────┬─────────┘
+                    ▼
+          IoU-Guided CASA-Loss
+                    │
+                    ▼
+       LiDAR–Camera Extrinsic Optimization
    
 
 📩 Questions / Issues
