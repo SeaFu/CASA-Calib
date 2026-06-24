@@ -354,7 +354,7 @@ The resulting contours provide the common structural representation used by
 both the global and local alignment modules.
 
 <!-- Optional pseudocode figure -->
-<!-- ![Algorithm 1](docs/algorithm_1.png) -->
+![Algorithm 1](docs/algorithm_1.png)
 
 ---
 
@@ -391,7 +391,7 @@ they form the global shape-alignment component of CASA-Loss.
 - `loss_shape_optimized.m`
 
 <!-- Optional pseudocode figure -->
-<!-- ![Algorithm 2](docs/algorithm_2.png) -->
+![Algorithm 2](docs/algorithm_2.png)
 
 ---
 
@@ -439,7 +439,7 @@ and incorporated into CASA-Loss through the IoU-guided coupling mechanism.
 - `loss_proj.m`
 
 <!-- Optional pseudocode figure -->
-<!-- ![Algorithm 3](docs/algorithm_3.png) -->
+![Algorithm 3](docs/algorithm_3.png) 
 
 ---
 
